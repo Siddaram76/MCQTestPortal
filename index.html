@@ -137,12 +137,15 @@
 
         async function fetchResults(sheetName) {
             const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+            console.log(`Fetching data from: ${baseUrl}`); // Added log
             try {
                 const response = await fetch(baseUrl);
+                console.log(`Response status: ${response.status}`); // Added log
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
+                console.log('Data fetched:', data); // Added log
                 resultsData = data.values;
                 columnHeaders = resultsData[0].map(header => header.trim()); // Trim whitespace from headers
             } catch (error) {
@@ -195,6 +198,7 @@
         function searchResult() {
             const rollNumber = document.getElementById('rollNumberInput').value;
             const course = 'SCIENCE 1 YEAR'; // Hard-coded course value
+            console.log(`Searching for roll number: ${rollNumber}`); // Added log
 
             if (rollNumber === '') {
                 alert('Please enter a roll number');
@@ -203,6 +207,7 @@
 
             fetchResults(course).then(() => {
                 const filteredResults = resultsData.filter(row => row[columnHeaders.indexOf('Roll Number')] === rollNumber);
+                console.log('Filtered results:', filteredResults); // Added log
                 displayResults(filteredResults);
             });
         }
