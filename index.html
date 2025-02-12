@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,123 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Results</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background: linear-gradient(to right, #00c6ff, #0072ff); /* Attractive gradient background */
-            color: #333;
-        }
-        h1, h3  {
-            color: #7B241C; /* White text color for headings */
-            text-align: center;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-        .logo {
-            display: block;
-            margin: 0 auto 20px auto;
-            max-width: 150px;
-            border-radius: 50%;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Logo with shadow */
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            background-color: #83F482;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Box shadow for the container */
-        }
-        select, input, button {
-            padding: 12px;
-            margin-bottom: 15px;
-            width: calc(100% - 24px);
-            font-size: 16px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        button {
-            color: #fff;
-            background-color: #0072ff; /* Blue button */
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 114, 255, 0.3); /* Button shadow */
-        }
-        button:hover {
-            background-color: #0056cc; /* Darker blue on hover */
-            transform: translateY(-2px);
-        }
-        .result-card {
-            margin-top: 30px;
-            padding: 20px;
-            border-radius: 15px;
-            background-color: #ffecd1; /* Light orange background */
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
-        }
-        .result-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Slight lift effect on hover */
-        }
-        .result-card h2 {
-            margin-top: 0;
-            color: #ff5722; /* Bold orange color */
-            font-size: 24px;
-            font-weight: 600;
-            border-bottom: 2px solid #ff5722;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .result-card table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .result-card th, .result-card td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
-            font-size: 16px;
-        }
-        .result-card th {
-            background-color: #ff5722; /* Dark orange for table headers */
-            color: #fff;
-            font-weight: bold;
-        }
-        .result-card td {
-            background-color: #ffe4c4; /* Light beige for table cells */
-        }
-        .result-summary {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            background-color: #ff5722; /* Dark orange for summary */
-            color: #fff;
-            font-weight: bold;
-            font-size: 18px;
-        }
-        .counter {
-            text-align: center;
-            margin-top: 20px;
-        }
+        /* Your existing CSS here */
     </style>
 </head>
 <body>
     <div class="container">
         <img src="" alt="College Logo" class="logo"> <!-- Replace with actual logo URL -->
-        
         <h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
         <marquee><h2>TALENT HUNT EXAM - 2025</h2></marquee>
         <hr>
         <h1>Student Results</h1>
-      
         <input type="text" id="rollNumberInput" placeholder="Enter roll number">
         <button onclick="searchResult()">Search</button>
         <div id="results"></div>
@@ -138,22 +30,21 @@
         let resultsData = [];
         let columnHeaders = [];
 
-       async function fetchResults(sheetName) {
-    const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
-    try {
-        const response = await fetch(baseUrl);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        async function fetchResults(sheetName) {
+            const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+            try {
+                const response = await fetch(baseUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                resultsData = data.values;
+                columnHeaders = resultsData[0].map(header => header.trim()); // Trim whitespace from headers
+            } catch (error) {
+                console.error('Error fetching data:', error);
+                document.getElementById('results').innerText = 'Error fetching data';
+            }
         }
-        const data = await response.json();
-        resultsData = data.values;
-        columnHeaders = resultsData[0].map(header => header.trim()); // Trim whitespace from headers
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        document.getElementById('results').innerText = 'Error fetching data';
-    }
-}
-
 
         function displayResults(results) {
             const resultsDiv = document.getElementById('results');
@@ -195,22 +86,6 @@
                 resultsDiv.appendChild(resultCard);
             });
         }
-
-        function searchResult() {
-    const rollNumber = document.getElementById('rollNumberInput').value;
-    const course = 'SCIENCE 1 YEAR'; // Hard-coded course value
-
-    if (rollNumber === '') {
-        alert('Please enter a roll number');
-        return;
-    }
-
-    fetchResults(course).then(() => {
-        const filteredResults = resultsData.filter(row => row[columnHeaders.indexOf('Roll Number')] === rollNumber);
-        displayResults(filteredResults);
-    });
-}
-
     </script>
 </body>
 </html>
