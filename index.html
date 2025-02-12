@@ -23,8 +23,10 @@
         .logo {
             display: block;
             margin: 0 auto 20px;
-            max-width: 150px;
-            border-radius: 50%;
+            width: 150px; /* Set a fixed width */
+            height: 150px; /* Set a fixed height to make it square */
+            object-fit: cover; /* Ensure the image covers the entire square without distortion */
+            border-radius: 0; /* Remove border-radius for a square shape */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
         .container {
@@ -128,7 +130,7 @@
 </head>
 <body>
     <div class="container">
-        <img src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true" alt="College Logo" class="logo"> <!-- Replace with actual logo URL -->
+        <img src="https://github.com/Siddaram76/millennium/blob/main/logo.jpg?raw=true" alt="College Logo" class="logo">
         <h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
         <h2 class="flash-text">TALENT HUNT EXAM - 2025</h2> <!-- Updated to flash text -->
         <hr>
@@ -204,4 +206,5 @@
                     </table>
                     <div class="result-summary">
                         <div>Total: ${total}</div>
-                       
+                        <div>Percentage: ${percentage}%</div>
+                    </div
