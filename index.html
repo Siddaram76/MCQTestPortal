@@ -216,3 +216,14 @@
             });
         }
 
+        function searchResult() {
+            const rollNumber = document.getElementById('rollNumberInput').value;
+            const course = 'SCIENCE 1 YEAR'; // Hard-coded course value
+            console.log(`Searching for roll number: ${rollNumber}`); // Log the roll number
+
+            if (rollNumber === '') {
+                alert('Please enter a roll number');
+                return;
+            }
+
+            fetchResults(course).
