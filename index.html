@@ -164,6 +164,7 @@
                 if (data.values && data.values.length > 0) {
                     resultsData = data.values;
                     columnHeaders = resultsData[0].map(header => header.trim()); // Trim whitespace from headers
+                    console.log('Column Headers:', columnHeaders); // Log column headers
                 } else {
                     console.log('No data found in the sheet');
                     document.getElementById('results').innerText = 'No data found in the sheet';
@@ -207,4 +208,11 @@
                     <div class="result-summary">
                         <div>Total: ${total}</div>
                         <div>Percentage: ${percentage}%</div>
-                    </div
+                    </div>
+                    <h3>Congratulations on your success!</h3>
+                `;
+
+                resultsDiv.appendChild(resultCard);
+            });
+        }
+
