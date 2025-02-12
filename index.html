@@ -116,19 +116,13 @@
 </head>
 <body>
     <div class="container">
-        <img src="https://nalanda.edu.in/wp-content/uploads/2018/12/Nalanda2.png" alt="College Logo" class="logo"> <!-- Replace with actual logo URL -->
+        <img src="" alt="College Logo" class="logo"> <!-- Replace with actual logo URL -->
         
-        <h1>NALANDA PU COLLEGE, KALABURGI</h1>
-        <marquee><h2>QUARTERLY EXAM</h2></marquee>
+        <h1>MILLENNIUM COMPOSITE PU COLLEGE, KALABURGI</h1>
+        <marquee><h2>TALENT HUNT EXAM - 2025</h2></marquee>
         <hr>
         <h1>Student Results</h1>
-        <select id="courseSelect">
-            <option value="">Select Course</option>
-            <option value="Course1">SCIENCE 1 YEAR</option>
-            <option value="Course2">SCIENCE 2 YEAR</option>
-            <option value="Course3">COMMERCE 1 YEAR</option>
-            <option value="Course4">COMMERCE 2 YEAR</option>
-        </select>
+      
         <input type="text" id="rollNumberInput" placeholder="Enter roll number">
         <button onclick="searchResult()">Search</button>
         <div id="results"></div>
@@ -144,21 +138,22 @@
         let resultsData = [];
         let columnHeaders = [];
 
-        async function fetchResults(sheetName) {
-            const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
-            try {
-                const response = await fetch(baseUrl);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                resultsData = data.values;
-                columnHeaders = resultsData[0].map(header => header.trim()); // Trim whitespace from headers
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                document.getElementById('results').innerText = 'Error fetching data';
-            }
+       async function fetchResults(sheetName) {
+    const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+    try {
+        const response = await fetch(baseUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        resultsData = data.values;
+        columnHeaders = resultsData[0].map(header => header.trim()); // Trim whitespace from headers
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('results').innerText = 'Error fetching data';
+    }
+}
+
 
         function displayResults(results) {
             const resultsDiv = document.getElementById('results');
@@ -202,19 +197,20 @@
         }
 
         function searchResult() {
-            const course = document.getElementById('courseSelect').value;
-            const rollNumber = document.getElementById('rollNumberInput').value;
+    const rollNumber = document.getElementById('rollNumberInput').value;
+    const course = 'SCIENCE 1 YEAR'; // Hard-coded course value
 
-            if (course === '') {
-                alert('Please select a course');
-                return;
-            }
+    if (rollNumber === '') {
+        alert('Please enter a roll number');
+        return;
+    }
 
-            fetchResults(course).then(() => {
-                const filteredResults = resultsData.filter(row => row[columnHeaders.indexOf('Roll Number')] === rollNumber);
-                displayResults(filteredResults);
-            });
-        }
+    fetchResults(course).then(() => {
+        const filteredResults = resultsData.filter(row => row[columnHeaders.indexOf('Roll Number')] === rollNumber);
+        displayResults(filteredResults);
+    });
+}
+
     </script>
 </body>
 </html>
