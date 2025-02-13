@@ -145,85 +145,86 @@
         let resultsData = [];
         let columnHeaders = [];
 
-        async function fetchResults(sheetName) {
-            const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
-            console.log(`Fetching data from: ${baseUrl}`);
-            try {
-                const response = await fetch(baseUrl);
-                console.log(`Response status: ${response.status}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const data = await response.json();
-                console.log('Data fetched:', data);
-                if (data.values && data.values.length > 0) {
-                    resultsData = data.values;
-                    columnHeaders = resultsData[0].map(header => header.trim());
-                    console.log('Column Headers:', columnHeaders);
-                    displayResults(resultsData.slice(1)); // Display all rows for testing
-                } else {
-                    console.log('No data found in the sheet');
-                    document.getElementById('results').innerText = 'No data found in the sheet';
-                }
-            } catch (error) {
-                console.error('Error fetching data:', error);
-                document.getElementById('results').innerText = 'Error fetching data';
+      async function fetchResults(sheetName) {
+    const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
+    console.log(`Fetching data from: ${baseUrl}`);
+    try {
+        const response = await fetch(baseUrl);
+        console.log(`Response status: ${response.status}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        console.log('Data fetched:', data);
+        if (data.values && data.values.length > 0) {
+            resultsData = data.values;
+            columnHeaders = resultsData[0].map(header => header.trim());
+            console.log('Column Headers:', columnHeaders);
+            displayResults(resultsData.slice(1)); // Display all rows for testing
+        } else {
+            console.log('No data found in the sheet');
+            document.getElementById('results').innerText = 'No data found in the sheet';
+        }
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        document.getElementById('results').innerText = 'Error fetching data';
+    }
+}
+
+function displayResults(results) {
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.innerHTML = ''; // Clear previous results
+
+    if (!results || results.length === 0) {
+        resultsDiv.innerText = 'No data available';
+        return;
+    }
+
+    results.forEach(row => {
+        const resultCard = document.createElement('div');
+        resultCard.className = 'result-card';
+
+        const total = row[columnHeaders.indexOf('Total')];
+        const percentage = row[columnHeaders.indexOf('Percentage')];
+
+        let tableRows = '';
+        for (let i = 2; i < columnHeaders.length; i++) {
+            if (columnHeaders[i] !== 'Total' && columnHeaders[i] !== 'Percentage') {
+                tableRows += `<tr><td>${columnHeaders[i]}</td><td>${row[i]}</td></tr>`;
             }
         }
 
-        function displayResults(results) {
-            const resultsDiv = document.getElementById('results');
-            resultsDiv.innerHTML = ''; // Clear previous results
+        resultCard.innerHTML = `
+            <h2>Name: ${row[columnHeaders.indexOf('Name')]}</h2>
+            <p><strong>Roll Number:</strong> ${row[columnHeaders.indexOf('Roll Number')]}</p>
+            <table>
+                <tr><th>Subject</th><th>Marks</th></tr>
+                ${tableRows}
+            </table>
+            <div class="result-summary">
+                <div>Total: ${total}</div>
+                <div>Percentage: ${percentage}%</div>
+            </div>
+            <h3>Congratulations on your success!</h3>
+        `;
 
-            if (!results || results.length === 0) {
-                resultsDiv.innerText = 'No data available';
-                return;
-            }
+        resultsDiv.appendChild(resultCard);
+    });
+}
 
-            results.forEach(row => {
-                const resultCard = document.createElement('div');
-                resultCard.className = 'result-card';
+function searchResult() {
+    const rollNumber = document.getElementById('rollNumberInput').value;
+    const course = 'SCIENCE 1 YEAR'; // Hard-coded course value
+    console.log(`Searching for roll number: ${rollNumber}`);
 
-                const total = row[columnHeaders.indexOf('Total')];
-                const percentage = row[columnHeaders.indexOf('Percentage')];
+    if (rollNumber === '') {
+        alert('Please enter a roll number');
+        return;
+    }
 
-                let tableRows = '';
-                for (let i = 2; i < columnHeaders.length; i++) {
-                    if (columnHeaders[i] !== 'Total' && columnHeaders[i] !== 'Percentage') {
-                        tableRows += `<tr><td>${columnHeaders[i]}</td><td>${row[i]}</td></tr>`;
-                    }
-                }
+    fetchResults(course);
+}
 
-                resultCard.innerHTML = `
-                    <h2>Name: ${row[columnHeaders.indexOf('Name')]}</h2>
-                    <p><strong>Roll Number:</strong> ${row[columnHeaders.indexOf('Roll Number')]}</p>
-                    <table>
-                        <tr><th>Subject</th><th>Marks</th></tr>
-                        ${tableRows}
-                    </table>
-                    <div class="result-summary">
-                        <div>Total: ${total}</div>
-                        <div>Percentage: ${percentage}%</div>
-                    </div>
-                    <h3>Congratulations on your success!</h3>
-                `;
-
-                resultsDiv.appendChild(resultCard);
-            });
-        }
-
-        function searchResult() {
-            const rollNumber = document.getElementById('rollNumberInput').value;
-            const course = 'SCIENCE 1 YEAR'; // Hard-coded course value
-            console.log(`Searching for roll number: ${rollNumber}`);
-
-            if (rollNumber === '') {
-                alert('Please enter a roll number');
-                return;
-            }
-
-            fetchResults(course);
-        }
     </script>
 </body>
 </html>
