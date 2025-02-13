@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Results</title>
     <style>
-        /* Existing CSS */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
@@ -13,7 +12,7 @@
             background: linear-gradient(to right, #00c6ff, #0072ff);
             color: #333;
         }
-        h1, h3 {
+        h1, h2, h3 {
             color: #7B241C;
             text-align: center;
             margin-bottom: 20px;
@@ -114,13 +113,10 @@
             text-align: center;
             margin-top: 20px;
         }
-
-        /* New CSS for flashing effect */
         @keyframes flash {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
         }
-
         .flash-text {
             animation: flash 1s infinite;
             text-align: center;
@@ -187,27 +183,22 @@
                 const resultCard = document.createElement('div');
                 resultCard.className = 'result-card';
 
-                const total = row[columnHeaders.indexOf('Total')];
-                const percentage = row[columnHeaders.indexOf('Percentage')];
+                const correctAnswer = row[columnHeaders.indexOf('Correct Answer')];
+                const wrongAnswer = row[columnHeaders.indexOf('Wrong Answer')];
+                const totalMarks = row[columnHeaders.indexOf('Total Marks')];
 
                 let tableRows = '';
-                for (let i = 2; i < columnHeaders.length; i++) {
-                    if (columnHeaders[i] !== 'Total' && columnHeaders[i] !== 'Percentage') {
-                        tableRows += `<tr><td>${columnHeaders[i]}</td><td>${row[i]}</td></tr>`;
-                    }
-                }
+                tableRows += `<tr><td>Correct Answer</td><td>${correctAnswer}</td></tr>`;
+                tableRows += `<tr><td>Wrong Answer</td><td>${wrongAnswer}</td></tr>`;
+                tableRows += `<tr><td>Total Marks</td><td>${totalMarks}</td></tr>`;
 
                 resultCard.innerHTML = `
                     <h2>Name: ${row[columnHeaders.indexOf('Name')]}</h2>
                     <p><strong>Roll Number:</strong> ${row[columnHeaders.indexOf('Roll Number')]}</p>
                     <table>
-                        <tr><th>Subject</th><th>Marks</th></tr>
+                        <tr><th>Category</th><th>Details</th></tr>
                         ${tableRows}
                     </table>
-                    <div class="result-summary">
-                        <div>Total: ${total}</div>
-                        <div>Percentage: ${percentage}%</div>
-                    </div>
                     <h3>Congratulations on your success!</h3>
                 `;
 
@@ -217,7 +208,7 @@
 
         function searchResult() {
             const rollNumber = document.getElementById('rollNumberInput').value;
-            const course = 'Talent'; // Hard-coded course value
+            const course = 'Sheet2'; // Hard-coded course value
             console.log(`Searching for roll number: ${rollNumber}`);
 
             if (rollNumber === '') {
