@@ -149,25 +149,19 @@
 
         async function fetchResults(sheetName) {
             const baseUrl = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
-            console.log(`Fetching data from: ${baseUrl}`);
             try {
                 const response = await fetch(baseUrl);
-                console.log(`Response status: ${response.status}`);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const data = await response.json();
-                console.log('Data fetched:', data);
                 if (data.values && data.values.length > 0) {
                     resultsData = data.values;
                     columnHeaders = resultsData[0].map(header => header.trim());
-                    console.log('Column Headers:', columnHeaders);
                 } else {
-                    console.log('No data found in the sheet');
                     document.getElementById('results').innerText = 'No data found in the sheet';
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
                 document.getElementById('results').innerText = 'Error fetching data';
             }
         }
@@ -185,18 +179,21 @@
                 const resultCard = document.createElement('div');
                 resultCard.className = 'result-card';
 
-                const correctAnswer = row[columnHeaders.indexOf('Correct Answer')];
-                const wrongAnswer = row[columnHeaders.indexOf('Wrong Answer')];
+                const rollNumber = row[columnHeaders.indexOf('Roll Number')];
+                const correct = row[columnHeaders.indexOf('Correct Answer')];
+                const incorrect = row[columnHeaders.indexOf('Incorrect Answer')];
+                const notAttempted = row[columnHeaders.indexOf('Not Attempted')];
                 const totalMarks = row[columnHeaders.indexOf('Total Marks')];
 
                 let tableRows = '';
-                tableRows += `<tr><td>Correct Answer</td><td>${correctAnswer}</td></tr>`;
-                tableRows += `<tr><td>Wrong Answer</td><td>${wrongAnswer}</td></tr>`;
+                tableRows += `<tr><td>Roll Number</td><td>${rollNumber}</td></tr>`;
+                tableRows += `<tr><td>Correct Answer</td><td>${correct}</td></tr>`;
+                tableRows += `<tr><td>Incorrect Answer</td><td>${incorrect}</td></tr>`;
+                tableRows += `<tr><td>Not Attempted</td><td>${notAttempted}</td></tr>`;
                 tableRows += `<tr><td>Total Marks</td><td>${totalMarks}</td></tr>`;
 
                 resultCard.innerHTML = `
                     <h2>Name: ${row[columnHeaders.indexOf('Name')]}</h2>
-                    <p><strong>Roll Number:</strong> ${row[columnHeaders.indexOf('Roll Number')]}</p>
                     <table>
                         <tr><th>Category</th><th>Details</th></tr>
                         ${tableRows}
@@ -211,7 +208,6 @@
         function searchResult() {
             const rollNumber = document.getElementById('rollNumberInput').value;
             const course = 'Sheet2'; // Hard-coded course value
-            console.log(`Searching for roll number: ${rollNumber}`);
 
             if (rollNumber === '') {
                 alert('Please enter a roll number');
