@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Computer Networks - MCQ Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2196F3, #21CBF3);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .test-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            text-align: center;
+        }
+
+        .info-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .info-item h3 {
+            color: #2196F3;
+            margin-bottom: 5px;
+        }
+
+        .start-screen {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        .quiz-container {
+            display: none;
+            padding: 30px;
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .timer {
+            background: #ff4757;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .progress {
+            background: #e9ecef;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            background: linear-gradient(90deg, #4CAF50, #45a049);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .question-number {
+            color: #2196F3;
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 15px;
+        }
+
+        .question-text {
+            font-size: 1.2em;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .options {
+            display: grid;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #2196F3;
+            transform: translateY(-1px);
+        }
+
+        .option.selected {
+            background: #2196F3;
+            color: white;
+            border-color: #1976D2;
+        }
+
+        .option-label {
+            font-weight: bold;
+            margin-right: 15px;
+            min-width: 30px;
+            height: 30px;
+            background: white;
+            color: #2196F3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .option.selected .option-label {
+            background: white;
+            color: #2196F3;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+        }
+
+        .submit-btn:hover {
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .results-screen {
+            display: none;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .score-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: conic-gradient(#4CAF50 0deg, #4CAF50 var(--score-angle), #e9ecef var(--score-angle), #e9ecef 360deg);
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .score-inner {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .score-text {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .score-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .grade {
+            font-size: 1.5em;
+            margin: 20px 0;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .grade.excellent { background: #d4edda; color: #155724; }
+        .grade.good { background: #d1ecf1; color: #0c5460; }
+        .grade.average { background: #fff3cd; color: #856404; }
+        .grade.poor { background: #f8d7da; color: #721c24; }
+
+        .restart-btn {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(116, 185, 255, 0.4);
+        }
+
+        .answer-item {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .answer-item.correct {
+            border-color: #4CAF50;
+            background: #f1f8e9;
+        }
+
+        .answer-item.incorrect {
+            border-color: #f44336;
+            background: #ffebee;
+        }
+
+        .answer-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+
+        .answer-status {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .answer-status.correct {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .answer-status.incorrect {
+            background: #f44336;
+            color: white;
+        }
+
+        .answer-question {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .answer-options {
+            display: grid;
+            gap: 10px;
+        }
+
+        .answer-option {
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .answer-option.user-selected {
+            background: #e3f2fd;
+            border: 2px solid #2196F3;
+            font-weight: bold;
+        }
+
+        .answer-option.correct-answer {
+            background: #e8f5e8;
+            border: 2px solid #4CAF50;
+            font-weight: bold;
+        }
+
+        .answer-option.wrong-selection {
+            background: #ffebee;
+            border: 2px solid #f44336;
+            font-weight: bold;
+        }
+
+        .option-marker {
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .answer-option.user-selected .option-marker {
+            background: #2196F3;
+            color: white;
+        }
+
+        .answer-option.correct-answer .option-marker {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .answer-option.wrong-selection .option-marker {
+            background: #f44336;
+            color: white;
+        }
+
+        .answer-option:not(.user-selected):not(.correct-answer):not(.wrong-selection) .option-marker {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .answer-summary {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .stat-number {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .correct-stat .stat-number { color: #4CAF50; }
+        .incorrect-stat .stat-number { color: #f44336; }
+        .unanswered-stat .stat-number { color: #ff9800; }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .quiz-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Computer Networks</h1>
+            <p>Interactive MCQ Test - Class XII Computer Science</p>
+        </div>
+
+        <div class="test-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <h3>25</h3>
+                    <p>Questions</p>
+                </div>
+                <div class="info-item">
+                    <h3>30</h3>
+                    <p>Minutes</p>
+                </div>
+                <div class="info-item">
+                    <h3>1</h3>
+                    <p>Mark Each</p>
+                </div>
+                <div class="info-item">
+                    <h3>25</h3>
+                    <p>Total Marks</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Start Screen -->
+        <div class="start-screen" id="startScreen">
+            <h2>Instructions</h2>
+            <ul style="text-align: left; max-width: 600px; margin: 20px auto;">
+                <li>This test contains 25 multiple choice questions</li>
+                <li>Each question carries 1 mark</li>
+                <li>Time limit: 30 minutes</li>
+                <li>You can navigate between questions using Previous/Next buttons</li>
+                <li>Click on any option to select your answer</li>
+                <li>You can change your answer anytime before submitting</li>
+                <li>Click "Submit Test" when you're done</li>
+            </ul>
+            <button class="start-btn" onclick="startTest()">Start Test</button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div class="quiz-container" id="quizContainer">
+            <div class="quiz-header">
+                <div>
+                    <span class="question-counter">Question <span id="currentQ">1</span> of <span id="totalQ">25</span></span>
+                </div>
+                <div class="timer" id="timer">30:00</div>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="question-card">
+                <div class="question-number" id="questionNumber">Question 1</div>
+                <div class="question-text" id="questionText"></div>
+                <div class="options" id="options"></div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" onclick="previousQuestion()" disabled>Previous</button>
+                <button class="nav-btn" id="nextBtn" onclick="nextQuestion()">Next</button>
+                <button class="nav-btn submit-btn" id="submitBtn" onclick="submitTest()" style="display: none;">Submit Test</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="results-screen" id="resultsScreen">
+            <h2>Test Completed!</h2>
+            <div class="score-circle" id="scoreCircle">
+                <div class="score-inner">
+                    <div class="score-text" id="scoreText">0/25</div>
+                    <div class="score-label">Score</div>
+                </div>
+            </div>
+            <div class="grade" id="gradeText"></div>
+            <p>Percentage: <span id="percentage">0%</span></p>
+            <p>Time Taken: <span id="timeTaken">0:00</span></p>
+            
+            <div style="margin: 30px 0;">
+                <button class="nav-btn" onclick="showAnswers()" style="margin-right: 15px;">View Answers</button>
+                <button class="restart-btn" onclick="restartTest()">Take Test Again</button>
+            </div>
+        </div>
+
+        <!-- Answer Review Screen -->
+        <div class="answer-review" id="answerReview" style="display: none; padding: 30px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h2>Answer Review</h2>
+                <button class="nav-btn" onclick="hideAnswers()">Back to Results</button>
+            </div>
+            
+            <div id="answersList"></div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            {
+                question: "A computer network is defined as:",
+                options: [
+                    "A collection of computers in the same room",
+                    "An interconnection among two or more computers or computing devices",
+                    "Only wireless connections between devices",
+                    "A single computer with multiple monitors"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which project commissioned the development of ARPANET in the 1960s?",
+                options: [
+                    "NASA",
+                    "MIT",
+                    "Advanced Research Projects Agency Network",
+                    "Stanford Research Institute"
+                ],
+                correct: 2
+            },
+            {
+                question: "The first message in ARPANET was communicated between:",
+                options: [
+                    "MIT and Stanford",
+                    "UCLA and Stanford Research Institute (SRI)",
+                    "Harvard and Princeton",
+                    "Berkeley and Caltech"
+                ],
+                correct: 1
+            },
+            {
+                question: "A Personal Area Network (PAN) typically covers a range of approximately:",
+                options: [
+                    "1 meter",
+                    "10 meters",
+                    "100 meters",
+                    "1 kilometer"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which of the following is an example of MAN?",
+                options: [
+                    "USB connection between phone and laptop",
+                    "Bluetooth connection between devices",
+                    "Cable TV network",
+                    "Internet connection"
+                ],
+                correct: 2
+            },
+            {
+                question: "What does MODEM stand for?",
+                options: [
+                    "MOdern DEModulator",
+                    "MOdulator DEModulator",
+                    "MOdular DEsign Module",
+                    "MOdified DEcoder Module"
+                ],
+                correct: 1
+            },
+            {
+                question: "An Ethernet card is also known as:",
+                options: [
+                    "Network Interface Card (NIC)",
+                    "Network Integration Card",
+                    "Network Installation Card",
+                    "Network Identification Card"
+                ],
+                correct: 0
+            },
+            {
+                question: "RJ-45 connector has how many pins?",
+                options: [
+                    "4 pins",
+                    "6 pins",
+                    "8 pins",
+                    "10 pins"
+                ],
+                correct: 2
+            },
+            {
+                question: "The main limitation of a hub is:",
+                options: [
+                    "It's too expensive",
+                    "Data collision when two devices send data simultaneously",
+                    "It only supports wireless connections",
+                    "It requires special cables"
+                ],
+                correct: 1
+            },
+            {
+                question: "Unlike a hub, a switch:",
+                options: [
+                    "Sends data to all connected devices",
+                    "Sends data only to the intended recipient",
+                    "Cannot handle multiple connections",
+                    "Only works with wireless devices"
+                ],
+                correct: 1
+            },
+            {
+                question: "In mesh topology, for n nodes, the number of wires required is:",
+                options: [
+                    "n",
+                    "n-1",
+                    "n(n-1)/2",
+                    "n²"
+                ],
+                correct: 2
+            },
+            {
+                question: "In ring topology, data transmission is:",
+                options: [
+                    "Bidirectional",
+                    "Unidirectional",
+                    "Random",
+                    "Broadcast to all nodes"
+                ],
+                correct: 1
+            },
+            {
+                question: "Which topology uses a single backbone wire shared among nodes?",
+                options: [
+                    "Star",
+                    "Ring",
+                    "Bus",
+                    "Mesh"
+                ],
+                correct: 2
+            },
+            {
+                question: "A MAC address is:",
+                options: [
+                    "24 bits long",
+                    "32 bits long",
+                    "48 bits long",
+                    "64 bits long"
+                ],
+                correct: 2
+            },
+            {
+                question: "An IPv4 address consists of:",
+                options: [
+                    "16 bits",
+                    "24 bits",
+                    "32 bits",
+                    "48 bits"
+                ],
+                correct: 2
+            },
+            {
+                question: "An IPv6 address consists of:",
+                options: [
+                    "64 bits",
+                    "96 bits",
+                    "128 bits",
+                    "256 bits"
+                ],
+                correct: 2
+            },
+            {
+                question: "The World Wide Web was invented by:",
+                options: [
+                    "Tim Cook",
+                    "Bill Gates",
+                    "Sir Tim Berners-Lee",
+                    "Steve Jobs"
+                ],
+                correct: 2
+            },
+            {
+                question: "HTML stands for:",
+                options: [
+                    "HyperText Markup Language",
+                    "HyperText Modern Language",
+                    "HighText Markup Language",
+                    "HyperTech Markup Language"
+                ],
+                correct: 0
+            },
+            {
+                question: "The secure version of HTTP is:",
+                options: [
+                    "SHTTP",
+                    "HTTPS",
+                    "HTTP/S",
+                    "HTTPSEC"
+                ],
+                correct: 1
+            },
+            {
+                question: "How many root DNS servers exist globally?",
+                options: [
+                    "10",
+                    "12",
+                    "13",
+                    "15"
+                ],
+                correct: 2
+            },
+            {
+                question: "Which topology is considered most secure?",
+                options: [
+                    "Bus",
+                    "Ring",
+                    "Star",
+                    "Mesh"
+                ],
+                correct: 3
+            },
+            {
+                question: "The symbol @ in email was introduced by:",
+                options: [
+                    "Tim Berners-Lee",
+                    "Roy Tomlinson",
+                    "Vint Cerf",
+                    "Bob Kahn"
+                ],
+                correct: 1
+            },
+            {
+                question: "The Internet is essentially a:",
+                options: [
+                    "LAN",
+                    "MAN",
+                    "WAN",
+                    "PAN"
+                ],
+                correct: 2
+            },
+            {
+                question: "Which address can change when a device moves to different networks?",
+                options: [
+                    "MAC address",
+                    "Physical address",
+                    "IP address",
+                    "Hardware address"
+                ],
+                correct: 2
+            },
+            {
+                question: "The web is different from the Internet because:",
+                options: [
+                    "Web uses different protocols",
+                    "Web is the collection of interlinked webpages accessible over Internet",
+                    "Web is faster than Internet",
+                    "Web is only for text data"
+                ],
+                correct: 1
+            }
+        ];
+
+        let currentQuestion = 0;
+        let userAnswers = new Array(questions.length).fill(-1);
+        let startTime = 0;
+        let timeLeft = 30 * 60; // 30 minutes in seconds
+        let timerInterval = null;
+
+        function startTest() {
+            document.getElementById('startScreen').style.display = 'none';
+            document.getElementById('quizContainer').style.display = 'block';
+            startTime = Date.now();
+            startTimer();
+            showQuestion();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    submitTest();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('currentQ').textContent = currentQuestion + 1;
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestion + 1}`;
+            document.getElementById('questionText').textContent = question.question;
+
+            const optionsContainer = document.getElementById('options');
+            optionsContainer.innerHTML = '';
+
+            question.options.forEach((option, index) => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'option';
+                optionDiv.onclick = () => selectOption(index);
+                
+                if (userAnswers[currentQuestion] === index) {
+                    optionDiv.classList.add('selected');
+                }
+
+                optionDiv.innerHTML = `
+                    <div class="option-label">${String.fromCharCode(65 + index)}</div>
+                    <div>${option}</div>
+                `;
+
+                optionsContainer.appendChild(optionDiv);
+            });
+
+            updateProgress();
+            updateNavigation();
+        }
+
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestion] = optionIndex;
+            
+            // Update visual selection
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.classList.toggle('selected', index === optionIndex);
+            });
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+        }
+
+        function updateNavigation() {
+            document.getElementById('prevBtn').disabled = currentQuestion === 0;
+            
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('nextBtn').style.display = 'inline-block';
+                document.getElementById('submitBtn').style.display = 'none';
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function submitTest() {
+            clearInterval(timerInterval);
+            
+            let score = 0;
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] === questions[i].correct) {
+                    score++;
+                }
+            }
+
+            const percentage = Math.round((score / questions.length) * 100);
+            const timeTaken = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(timeTaken / 60);
+            const seconds = timeTaken % 60;
+
+            // Show results
+            document.getElementById('quizContainer').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+
+            document.getElementById('scoreText').textContent = `${score}/${questions.length}`;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            document.getElementById('timeTaken').textContent = 
+                `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+            // Update score circle
+            const angle = (score / questions.length) * 360;
+            document.getElementById('scoreCircle').style.setProperty('--score-angle', `${angle}deg`);
+
+            // Determine grade
+            let grade, gradeClass;
+            if (percentage >= 90) {
+                grade = "Excellent! 🏆";
+                gradeClass = "excellent";
+            } else if (percentage >= 75) {
+                grade = "Good Job! 👍";
+                gradeClass = "good";
+            } else if (percentage >= 50) {
+                grade = "Average 📚";
+                gradeClass = "average";
+            } else {
+                grade = "Need More Practice 💪";
+                gradeClass = "poor";
+            }
+
+            const gradeElement = document.getElementById('gradeText');
+            gradeElement.textContent = grade;
+            gradeElement.className = `grade ${gradeClass}`;
+        }
+
+        function restartTest() {
+            currentQuestion = 0;
+            userAnswers = new Array(questions.length).fill(-1);
+            timeLeft = 30 * 60;
+            
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('answerReview').style.display = 'none';
+            document.getElementById('startScreen').style.display = 'block';
+        }
+
+        function showAnswers() {
+            document.getElementById('resultsScreen').style.display = 'none';
+            document.getElementById('answerReview').style.display = 'block';
+            
+            const answersList = document.getElementById('answersList');
+            
+            // Calculate stats
+            let correctCount = 0;
+            let incorrectCount = 0;
+            let unansweredCount = 0;
+            
+            for (let i = 0; i < questions.length; i++) {
+                if (userAnswers[i] === -1) {
+                    unansweredCount++;
+                } else if (userAnswers[i] === questions[i].correct) {
+                    correctCount++;
+                } else {
+                    incorrectCount++;
+                }
+            }
+            
+            // Create summary
+            const summary = `
+                <div class="answer-summary">
+                    <h3>Answer Summary</h3>
+                    <div class="summary-stats">
+                        <div class="stat-item correct-stat">
+                            <div class="stat-number">${correctCount}</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                        <div class="stat-item incorrect-stat">
+                            <div class="stat-number">${incorrectCount}</div>
+                            <div class="stat-label">Incorrect</div>
+                        </div>
+                        <div class="stat-item unanswered-stat">
+                            <div class="stat-number">${unansweredCount}</div>
+                            <div class="stat-label">Unanswered</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Generate detailed answers
+            let answersHTML = summary;
+            
+            questions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const correctAnswer = question.correct;
+                const isCorrect = userAnswer === correctAnswer;
+                const isAnswered = userAnswer !== -1;
+                
+                let statusClass = '';
+                let statusText = '';
+                
+                if (!isAnswered) {
+                    statusClass = 'unanswered';
+                    statusText = 'Not Answered';
+                } else if (isCorrect) {
+                    statusClass = 'correct';
+                    statusText = '✓ Correct';
+                } else {
+                    statusClass = 'incorrect';
+                    statusText = '✗ Incorrect';
+                }
+                
+                answersHTML += `
+                    <div class="answer-item ${statusClass}">
+                        <div class="answer-header">
+                            <h4>Question ${index + 1}</h4>
+                            <span class="answer-status ${statusClass}">${statusText}</span>
+                        </div>
+                        
+                        <div class="answer-question">${question.question}</div>
+                        
+                        <div class="answer-options">
+                `;
+                
+                question.options.forEach((option, optIndex) => {
+                    let optionClass = '';
+                    
+                    if (optIndex === correctAnswer) {
+                        optionClass = 'correct-answer';
+                    }
+                    
+                    if (userAnswer === optIndex && optIndex !== correctAnswer) {
+                        optionClass = 'wrong-selection';
+                    } else if (userAnswer === optIndex && optIndex === correctAnswer) {
+                        optionClass = 'user-selected correct-answer';
+                    }
+                    
+                    answersHTML += `
+                        <div class="answer-option ${optionClass}">
+                            <div class="option-marker">${String.fromCharCode(65 + optIndex)}</div>
+                            <div>${option}</div>
+                        </div>
+                    `;
+                });
+                
+                answersHTML += `
+                        </div>
+                    </div>
+                `;
+            });
+            
+            answersList.innerHTML = answersHTML;
+        }
+
+        function hideAnswers() {
+            document.getElementById('answerReview').style.display = 'none';
+            document.getElementById('resultsScreen').style.display = 'block';
+        }
+
+        // Initialize
+        document.getElementById('totalQ').textContent = questions.length;
+    </script>
+<footer>
+    <hr style="margin-bottom: 10px; border-top: 1px solid #cbd5e1;"/>
+    <p><strong>Developed and Maintained by Siddaram Diggikar, Dept. of Computer science</strong></p>
+  </footer>
+</body>
+</html>
